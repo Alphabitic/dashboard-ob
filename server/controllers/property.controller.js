@@ -99,7 +99,7 @@ const createProperty = async (req, res) => {
 
         await session.commitTransaction();
 
-        res.status(200).json({ message: "Property created successfully" });
+        res.status(200).json({ message: "Ticket créé avec succès" });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -125,7 +125,7 @@ const updateProperty = async (req, res) => {
             },
         );
 
-        res.status(200).json({ message: "Property updated successfully" });
+        res.status(200).json({ message: "Ticket à jour" });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
