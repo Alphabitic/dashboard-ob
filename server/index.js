@@ -30,8 +30,8 @@ const openaiConfig = new Configuration({
     try {
       const { data } = await openai.createCompletion({
         model: "text-davinci-003",
-        prompt: "",
-        temperature: 1,
+        prompt: "La différence entre tchat gpt et gpt-3?\n\nGPT (Generative Pre-trained Transformer) est une technologie d'intelligence artificielle qui peut être utilisée pour générer du texte, des réponses et des conversations. GPT-3 (Generative Pre-trained Transformer 3) est la dernière version de GPT qui est plus puissante et plus avancée. GPT-3 est capable de générer des réponses plus précises et plus convaincantes que GPT.\n\nLe tchat GPT est une technologie qui permet à des robots conversationnels d'interagir avec des utilisateurs en utilisant des modèles GPT. Le tchat GPT peut être utilisé pour créer des conversations plus naturelles et plus engageantes entre un utilisateur et un robot.\n\nGPT-3, d'autre part, est une technologie plus avancée qui peut être utilisée pour générer des réponses plus précises et plus convaincantes. GPT-3 peut également être utilisé pour créer des conversations plus naturelles et plus engageantes entre un utilisateur et un robot.",
+        temperature: 0.4,
         max_tokens: 4000,
         top_p: 1,
         frequency_penalty: 0,
