@@ -44,7 +44,7 @@ const openaiConfig = new Configuration({
     try {
       const { data } = await openai.createCompletion({
         model: "text-davinci-003",
-        prompt: {message},
+        prompt: message,
         temperature: 0,
         max_tokens: 4000,
         top_p: 1.0,
