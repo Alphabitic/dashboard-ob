@@ -1,7 +1,7 @@
 import express from "express";
 import * as dotenv from "dotenv";
 import cors from "cors";
-
+import { Configuration, OpenAIApi } from 'openai';
 import connectDB from "./mongodb/connect.js";
 import userRouter from "./routes/user.routes.js";
 import propertyRouter from "./routes/property.routes.js";
@@ -18,7 +18,35 @@ app.get("/", (req, res) => {
 
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/properties", propertyRouter);
-
+// Adding OpenAI API
+const openaiConfig = new Configuration({
+    organizationId:'org-kDJbLtt6EZiRr2eNhugUibag',
+   apiKey: process.env.OPENAI_API_KEY,
+  });
+  const openai = new OpenAIApi(openaiConfig);
+  app.post("/chatbot", async (req, res) => {
+    const { message } = req.body;
+  
+    try {
+      const { data } = await openai.createCompletion({
+        model: "code-davinci-002",
+        prompt: "",
+        temperature: 0,
+        max_tokens: 4000,
+        top_p: 1,
+        frequency_penalty: 0,
+        presence_penalty: 0,
+      });
+  
+      const botResponse = data.choices[0].text;
+      res.json({ botResponse });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Internal server error");
+    }
+  });
+  
+  
 const startServer = async () => {
     try {
         connectDB(process.env.MONGODB_URL);
