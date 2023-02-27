@@ -45,11 +45,11 @@ const openaiConfig = new Configuration({
       const { data } = await openai.createCompletion({
         model: "text-davinci-003",
         prompt: "",
-        temperature: 0.4,
-        max_tokens: 4000,
-        top_p: 1,
-        frequency_penalty: 0,
-        presence_penalty: 0,
+        temperature: 0,
+        max_tokens: 60,
+        top_p: 1.0,
+        frequency_penalty: 0.0,
+        presence_penalty: 0.0,
       });
   
       const botResponse = data.choices[0].text;
