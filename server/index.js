@@ -926,7 +926,7 @@ const transporter = nodemailer.createTransport({
   secure: false,
   auth: {
     user: 'zola_andria@outlook.fr',
-    pass: '9876543210Azerty'
+    pass: '140219Abigu@elle!'
   }
 });
 
