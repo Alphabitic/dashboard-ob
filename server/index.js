@@ -1072,10 +1072,6 @@ app.put('/api/update-certs', (req, res) => {
   res.send('Certificats et domaines misent à jour avec succès');
 });
 
-app.listen(process.env.PORT, () => {
-  console.log(`Serveur démarré sur le port ${process.env.PORT}`);
-});
-
 // Middleware pour afficher les requêtes reçues
 app.use((req, res, next) => {
     console.log(`Received ${req.method} request at ${req.url}`);
@@ -1127,7 +1123,7 @@ const openaiConfig = new Configuration({
   const startServer = async () => {
     try {
       await connectDB(process.env.MONGODB_URL);
-      app.listen(5000, () =>
+      app.listen(PORT, () =>
         console.log("Server started on port http://localhost:8080")
       );
     } catch (error) {
