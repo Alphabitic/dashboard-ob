@@ -9,11 +9,14 @@ import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 import moment from 'moment';
 import 'moment/locale/fr.js';
+
+
 moment.locale('fr');
 const port=process.env.PORT;
 // Utilisation de Moment
 const today = moment().locale('fr').format('LL');
 dotenv.config();
+
 
 const certificats = [
 
@@ -909,13 +912,12 @@ const certificats = [
 ];
 
 const app = express();
-app.use(cors());
-app.use(express.json({ limit: "50mb" }));
 
 // Middleware pour le parsing du corps de la requête
 app.use(bodyParser.json());
 
-
+// Configuration de CORS
+app.use(cors());
 
 // Configuration du transporteur de messagerie
 const transporter = nodemailer.createTransport({
@@ -1124,7 +1126,7 @@ const openaiConfig = new Configuration({
     try {
       await connectDB(process.env.MONGODB_URL);
       app.listen(port, () =>
-        console.log("Server started on port http://localhost:8080")
+        console.log(`Server started on port ${port}`)
       );
     } catch (error) {
       console.log(error);
