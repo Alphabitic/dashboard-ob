@@ -4,11 +4,11 @@ import { Configuration, OpenAIApi } from 'openai';
 import connectDB from "./mongodb/connect.js";
 import userRouter from "./routes/user.routes.js";
 import propertyRouter from "./routes/property.routes.js";
-const bodyParser = require('body-parser');
-const nodemailer = require('nodemailer');
-const dotenv = require('dotenv');
-const moment = require('moment');
-require('moment/locale/fr'); // pour utiliser Moment en français
+import bodyParser from 'body-parser';
+import nodemailer from 'nodemailer';
+import dotenv from 'dotenv';
+import moment from 'moment';
+import 'moment/locale/fr'; // pour utiliser Moment en français
 
 // Utilisation de Moment
 const today = moment().locale('fr').format('LL');
