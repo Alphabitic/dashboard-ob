@@ -925,14 +925,15 @@ const transporter = nodemailer.createTransport({
   port: 587,
   secure: false,
   auth: {
-    user: 'zola_andria@outlook.fr',
-    pass: 'xnbajztodlprsamb'
+    user: process.env.OUTLOOK_USERNAME,
+    pass: process.env.OUTLOOK_PASSWORD
   }
 });
 
 // Route pour récupérer les certificats
 app.get('/api/certificates', (req, res) => {
   res.send(certificats);
+  res.send(domaines);
 });
 
 // Route pour envoyer un mail avec les certificats expirant dans moins de 25 jours
@@ -1043,7 +1044,7 @@ mailBody += `
 `;
 
   const message = {
-    from: 'zola_andria@outlook.fr',
+    from: 'test-automatisation@orange.com',
     to: 'zola.andriana@gmail.com',
     subject: `Vérification quotidienne des certificats et des domaines ce ${today} (${certsToRenew.length} certificats) `,
     html: mailBody
