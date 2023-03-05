@@ -8,7 +8,8 @@ import bodyParser from 'body-parser';
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 import moment from 'moment';
-import 'moment/locale/fr'; // pour utiliser Moment en français
+import 'moment/locale/fr.js';
+moment.locale('fr');
 
 // Utilisation de Moment
 const today = moment().locale('fr').format('LL');
