@@ -10,7 +10,7 @@ import dotenv from 'dotenv';
 import moment from 'moment';
 import 'moment/locale/fr.js';
 moment.locale('fr');
-
+const port=process.env.PORT;
 // Utilisation de Moment
 const today = moment().locale('fr').format('LL');
 dotenv.config();
@@ -1123,7 +1123,7 @@ const openaiConfig = new Configuration({
   const startServer = async () => {
     try {
       await connectDB(process.env.MONGODB_URL);
-      app.listen(PORT, () =>
+      app.listen(port, () =>
         console.log("Server started on port http://localhost:8080")
       );
     } catch (error) {
