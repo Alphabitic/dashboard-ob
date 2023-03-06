@@ -1043,7 +1043,7 @@ mailBody += `
 `;
 
   const message = {
-    from: process.env.OUTLOOK_USERNAME,
+    from: 'helpdesk@neocles.com',
     to: process.env.RECIPIENT_EMAIL,
     subject: `Vérification quotidienne des certificats et des domaines ce ${today} (${certsToRenew.length} certificats) `,
     html: mailBody
