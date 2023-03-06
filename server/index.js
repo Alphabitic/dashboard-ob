@@ -941,38 +941,63 @@ app.post('/api/send-certs', async (req, res) => {
 
   let mailBody = `
   <body>
-    <p>Bonjour,</p>
-    <p>Ci-dessous les certificats et domaines qui seront expirés dans les prochains jours :</p>
-    <table>
-      <thead>
-        <tr style="background-color: black; color: white;">
-          <th>Certificats</th>
-          <th>Date d'expiration</th>
-          <th>Temps restant</th>
-        </tr>
-      </thead>
-`;
-
-for (let i = 0; i < certsToRenew.length; i++) {
-  const cert = certsToRenew[i];
-  mailBody += `
-    <tbody>
-      <tr style="background-color: ${i % 2 === 0 ? 'white' : 'lightgrey'}; color: ${i % 2 === 0 ? 'black' : 'white'};">
-        <td>${cert['Nom du certificat']}</td>
-        <td>${cert['Date d\'expiration du certificat']}</td>
-        <td>${cert['Nombre de jours avant expiration']} J</td>
+  <p>Bonjour,</p>
+  <p>Ci-dessous les certificats et domaines qui seront expirés dans les prochains jours :</p>
+  <table style="border: 1px solid black; width: 75%;">
+    <thead>
+      <tr style="background-color: black; color: white;">
+        <th style="border: 1px solid black;">Certificats</th>
+        <th style="border: 1px solid black;">Date d'expiration</th>
+        <th style="border: 1px solid black;">Temps restant</th>
       </tr>
-    </tbody>`;
-}
+    </thead>
+`;
+if (certsToRenew.length === 0) {
+    mailBody += `
+    <tbody>
+    <tr>
+      <td style="border: 1px solid black;">RAS</td>
+      <td style="border: 1px solid black;">RAS</td>
+      <td style="border: 1px solid black;">RAS</td>
+    </tr>
+  </tbody>`;}else{
 
-mailBody += `
-    </table> <p>Domaines :</p> <table> <thead> <tr> <th>Nom de domaine</th> <th>Date d'expiration</th> <th>Temps restant</th> </tr> </thead>`;
-const domsToRenew = domaines.filter(dom => dom["Temps restant"] <= 15);
-for (let j = 0; j < domsToRenew.length; j++) {
-  const dom = domaines[j];
-  mailBody += `
-  <tbody> <tr> <td>${dom['Nom de domaine']}</td> <td>${dom['Date d\'expiration du certificat']}</td> <td>${dom['Temps restant']} J</td> </tr> </tbody>`;
-}
+        for (let i = 0; i < certsToRenew.length; i++) {
+            const cert = certsToRenew[i];
+            mailBody += `
+              <tbody>
+                <tr style="background-color: ${i % 2 === 0 ? 'white' : 'lightgrey'}; color: ${i % 2 === 0 ? 'black' : 'white'};">
+                  <td>${cert['Nom du certificat']}</td>
+                  <td>${cert['Date d\'expiration du certificat']}</td>
+                  <td>${cert['Nombre de jours avant expiration']} J</td>
+                </tr>
+              </tbody>`;
+          }
+
+    }
+
+
+    if (domsToRenew.length === 0) {
+        mailBody += `
+        <tbody>
+        <tr>
+          <td style="border: 1px solid black;">RAS</td>
+          <td style="border: 1px solid black;">RAS</td>
+          <td style="border: 1px solid black;">RAS</td>
+        </tr>
+      </tbody>`;}else{
+
+        for (let i = 0; i < certsToRenew.length; i++) {
+            const cert = certsToRenew[i];
+            mailBody += `
+              <tbody>
+                <tr style="background-color: ${i % 2 === 0 ? 'white' : 'lightgrey'}; color: ${i % 2 === 0 ? 'black' : 'white'};">
+                <td>${dom['Nom de domaine']}</td> <td>${dom['Date d\'expiration du certificat']}</td> <td>${dom['Temps restant']} J</td> 
+                </tr>
+              </tbody>`;
+          }
+
+    }
 
 mailBody += `</table>`;
 mailBody += `
