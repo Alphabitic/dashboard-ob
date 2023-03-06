@@ -9,7 +9,7 @@ import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 import moment from 'moment';
 import 'moment/locale/fr.js';
-
+import cron from 'node-cron'
 
 moment.locale('fr');
 const port=process.env.PORT;
@@ -1059,7 +1059,21 @@ mailBody += `
   }
 });
 
-// Route pour mettre à jour le nombre de jours avant expiration chaque jour à minuit
+// Planifie l'exécution de la mise à jour chaque jour à minuit
+cron.schedule('0 0 * * *', () => {
+  const currentDay = moment().locale('fr').format('LL');
+  if (currentDay !== today) {
+    today = currentDay;
+    certificats.forEach(cert => {
+      cert["Nombre de jours avant expiration"] -= 1;
+    });
+    domaines.forEach(dom => {
+      dom["Nombre de jours avant expiration"] -= 1;
+    });
+  }
+});
+
+// Route pour mettre à jour manuellement les certificats et les domaines
 app.put('/api/update-certs', (req, res) => {
   const currentDay = moment().locale('fr').format('LL');
   if (currentDay !== today) {
@@ -1071,7 +1085,7 @@ app.put('/api/update-certs', (req, res) => {
       dom["Nombre de jours avant expiration"] -= 1;
     });
   }
-  res.send('Certificats et domaines misent à jour avec succès');
+  res.send('Certificats et domaines mis à jour avec succès');
 });
 
 // Middleware pour afficher les requêtes reçues
