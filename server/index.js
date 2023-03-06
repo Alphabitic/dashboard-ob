@@ -926,7 +926,7 @@ const transporter = nodemailer.createTransport({
   secure: false,
   auth: {
     user: "zola_andria@outlook.fr",
-    pass: "hcgundsblelpzsyc"
+    pass: process.env.OUTLOOK_PASSWORD,
   }
 });
 
@@ -1044,8 +1044,8 @@ mailBody += `
 `;
 
   const message = {
-    from: 'zola_andria@outlook.fr',
-    to: 'zola.andriana@gmail.com',
+    from: process.env.OUTLOOK_USERNAME,
+    to: process.env.RECIPIENT_EMAIL,
     subject: `Vérification quotidienne des certificats et des domaines ce ${today} (${certsToRenew.length} certificats) `,
     html: mailBody
   };
