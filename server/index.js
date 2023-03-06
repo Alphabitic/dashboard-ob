@@ -984,6 +984,7 @@ if (certsToRenew.length === 0) {
         <th style="border: 1px solid black;">Temps restant</th>
       </tr>
     </thead>`;
+    const domsToRenew = domaines.filter(dom => dom["Temps restant"] <= 15);
 
     if (domsToRenew.length === 0) {
         mailBody += `
@@ -995,8 +996,8 @@ if (certsToRenew.length === 0) {
         </tr>
       </tbody>`;}else{
 
-        for (let i = 0; i < certsToRenew.length; i++) {
-            const cert = certsToRenew[i];
+        for (let j = 0; j < domsToRenew.length; j++) {
+            const dom = domaines[j];
             mailBody += `
               <tbody>
                 <tr style="background-color: ${i % 2 === 0 ? 'white' : 'lightgrey'}; color: ${i % 2 === 0 ? 'black' : 'white'};">
