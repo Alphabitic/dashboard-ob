@@ -976,6 +976,8 @@ if (certsToRenew.length === 0) {
 
     }
     mailBody += `
+  </table></br> <p>Domaines :</p> </br>`
+    mailBody += `
     <table style="border: 1px solid black; width: 75%;">
     <thead>
       <tr style="background-color: black; color: white;">
