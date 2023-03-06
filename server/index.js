@@ -975,7 +975,15 @@ if (certsToRenew.length === 0) {
           }
 
     }
-
+    mailBody += `
+    <table style="border: 1px solid black; width: 75%;">
+    <thead>
+      <tr style="background-color: black; color: white;">
+        <th style="border: 1px solid black;">Nom de domaine</th>
+        <th style="border: 1px solid black;">Date d'expiration</th>
+        <th style="border: 1px solid black;">Temps restant</th>
+      </tr>
+    </thead>`;
 
     if (domsToRenew.length === 0) {
         mailBody += `
