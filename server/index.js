@@ -967,9 +967,9 @@ if (certsToRenew.length === 0) {
             mailBody += `
               <tbody>
                 <tr style="background-color: ${i % 2 === 0 ? 'white' : 'lightgrey'}; color: ${i % 2 === 0 ? 'black' : 'white'};">
-                  <td>${cert['Nom du certificat']}</td>
-                  <td>${cert['Date d\'expiration du certificat']}</td>
-                  <td>${cert['Nombre de jours avant expiration']} J</td>
+                  <td style="border: 1px solid black;">${cert['Nom du certificat']}</td>
+                  <td style="border: 1px solid black;">${cert['Date d\'expiration du certificat']}</td>
+                  <td style="border: 1px solid black;">${cert['Nombre de jours avant expiration']} J</td>
                 </tr>
               </tbody>`;
           }
