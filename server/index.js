@@ -920,11 +920,11 @@ app.use(cors());
 
 // Configuration du transporteur de messagerie
 const transporter = nodemailer.createTransport({
-  host: 'mail.neocles.com',
+  host: 'smtp.office365.com',
   port: 587,
   secure: false,
   auth: {
-    user: "neocorp\zandrianantenaina-ext@neocles.com",
+    user: "zola_andria@outlook.fr",
     pass: process.env.OUTLOOK_PASSWORD,
   }
 });
