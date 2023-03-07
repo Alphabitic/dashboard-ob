@@ -941,7 +941,7 @@ app.post('/api/send-certs', async (req, res) => {
       const expirationDate = new Date(cert["Date d'expiration du certificat"]);
       const timeDiff = expirationDate.getTime() - Date.now();
       const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
-      return daysDiff <= 15;
+      return daysDiff <= 50;
     });
 
   let mailBody = `
