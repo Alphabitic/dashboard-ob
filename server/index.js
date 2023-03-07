@@ -971,7 +971,7 @@ if (certsToRenew.length === 0) {
             const cert = certsToRenew[i];
             const expirationDate = new Date(cert["Date d'expiration du certificat"]);
             const timeDiff = expirationDate.getTime() - Date.now();
-            const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+            const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24))-1;
             mailBody += `
               <tbody>
                 <tr style="background-color: ${i % 2 === 0 ? 'white' : 'lightgrey'}; color: ${i % 2 === 0 ? 'black' : 'white'};">
@@ -1009,7 +1009,7 @@ if (certsToRenew.length === 0) {
       for (let j = 0; j < domsToRenew.length; j++) {
           const dom = domsToRenew[j];
           const expirationDate = moment(dom['Date d\'expiration du certificat'], 'DD/MM/YYYY');
-          const timeRemaining = moment.duration(expirationDate.diff(moment())).asDays();
+          const timeRemaining = moment.duration(expirationDate.diff(moment())).asDays()-1;
           mailBody += `
             <tbody>
               <tr style="background-color: ${j % 2 === 0 ? 'white' : 'lightgrey'}; color: ${j % 2 === 0 ? 'black' : 'white'};">
