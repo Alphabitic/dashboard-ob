@@ -20,9 +20,9 @@ dotenv.config();
 
 const certificats = [
   {
-      "Nombre de jours avant expiration": 10,
+      "Nombre de jours avant expiration": 382,
       "Nom du certificat": "echanges.ccifinance.fr",
-      "Date d'expiration du certificat": "2023-03-17"
+      "Date d'expiration du certificat": "2024-03-23"
   },
   {
       "Nombre de jours avant expiration": 19,
