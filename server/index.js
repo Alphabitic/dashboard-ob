@@ -937,7 +937,12 @@ app.get('/api/certificates', (req, res) => {
 
 // Route pour envoyer un mail avec les certificats expirant dans moins de 25 jours
 app.post('/api/send-certs', async (req, res) => {
-  const certsToRenew = certificats.filter(cert => cert["Nombre de jours avant expiration"] <= 15);
+    const certsToRenew = certificats.filter(cert => {
+      const expirationDate = new Date(cert["Date d'expiration du certificat"]);
+      const timeDiff = expirationDate.getTime() - Date.now();
+      const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+      return daysDiff <= 15;
+    });
 
   let mailBody = `
   <body>
@@ -964,12 +969,15 @@ if (certsToRenew.length === 0) {
 
         for (let i = 0; i < certsToRenew.length; i++) {
             const cert = certsToRenew[i];
+            const expirationDate = new Date(cert["Date d'expiration du certificat"]);
+            const timeDiff = expirationDate.getTime() - Date.now();
+            const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
             mailBody += `
               <tbody>
                 <tr style="background-color: ${i % 2 === 0 ? 'white' : 'lightgrey'}; color: ${i % 2 === 0 ? 'black' : 'white'};">
                   <td style="border: 1px solid black;">${cert['Nom du certificat']}</td>
                   <td style="border: 1px solid black;">${cert['Date d\'expiration du certificat']}</td>
-                  <td style="border: 1px solid black;">${cert['Nombre de jours avant expiration']} J</td>
+                  <td style="border: 1px solid black;">${daysDiff} j</td>
                 </tr>
               </tbody>`;
           }
@@ -977,40 +985,43 @@ if (certsToRenew.length === 0) {
     }
     mailBody += `
   </table></br> <p>Domaines :</p> </br>`
-    mailBody += `
-    <table style="border: 1px solid black; width: 75%;">
-    <thead>
-      <tr style="background-color: black; color: white;">
-        <th style="border: 1px solid black;">Nom de domaine</th>
-        <th style="border: 1px solid black;">Date d'expiration</th>
-        <th style="border: 1px solid black;">Temps restant</th>
+  mailBody += `
+  <table style="border: 1px solid black; width: 75%;">
+  <thead>
+    <tr style="background-color: black; color: white;">
+      <th style="border: 1px solid black;">Nom de domaine</th>
+      <th style="border: 1px solid black;">Date d'expiration</th>
+      <th style="border: 1px solid black;">Temps restant</th>
+    </tr>
+  </thead>`;
+  const domsToRenew = domaines.filter(dom => dom["Temps restant"] <= 15);
+
+  if (domsToRenew.length === 0) {
+      mailBody += `
+      <tbody>
+      <tr>
+        <td style="border: 1px solid black;">RAS</td>
+        <td style="border: 1px solid black;">RAS</td>
+        <td style="border: 1px solid black;">RAS</td>
       </tr>
-    </thead>`;
-    const domsToRenew = domaines.filter(dom => dom["Temps restant"] <= 15);
+    </tbody>`;}else{
 
-    if (domsToRenew.length === 0) {
-        mailBody += `
-        <tbody>
-        <tr>
-          <td style="border: 1px solid black;">RAS</td>
-          <td style="border: 1px solid black;">RAS</td>
-          <td style="border: 1px solid black;">RAS</td>
-        </tr>
-      </tbody>`;}else{
+      for (let j = 0; j < domsToRenew.length; j++) {
+          const dom = domsToRenew[j];
+          const expirationDate = moment(dom['Date d\'expiration du certificat'], 'DD/MM/YYYY');
+          const timeRemaining = moment.duration(expirationDate.diff(moment())).asDays();
+          mailBody += `
+            <tbody>
+              <tr style="background-color: ${j % 2 === 0 ? 'white' : 'lightgrey'}; color: ${j % 2 === 0 ? 'black' : 'white'};">
+              <td>${dom['Nom de domaine']}</td> <td>${dom['Date d\'expiration du certificat']}</td> <td>${timeRemaining} J</td> 
+              </tr>
+            </tbody>`;
+        }
 
-        for (let j = 0; j < domsToRenew.length; j++) {
-            const dom = domaines[j];
-            mailBody += `
-              <tbody>
-                <tr style="background-color: ${i % 2 === 0 ? 'white' : 'lightgrey'}; color: ${i % 2 === 0 ? 'black' : 'white'};">
-                <td>${dom['Nom de domaine']}</td> <td>${dom['Date d\'expiration du certificat']}</td> <td>${dom['Temps restant']} J</td> 
-                </tr>
-              </tbody>`;
-          }
-
-    }
+  }
 
 mailBody += `</table>`;
+
 mailBody += `
 <div>
 <img src="https://firebasestorage.googleapis.com/v0/b/hosting-app-ee0db.appspot.com/o/550_1019992911.png?alt=media&token=a3288999-de7a-4ec1-8c8d-40245ae2f4fd" alt="source" style="width: 200px; height: auto; margin-right: 10px;">
