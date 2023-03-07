@@ -994,7 +994,7 @@ if (certsToRenew.length === 0) {
       <th style="border: 1px solid black;">Temps restant</th>
     </tr>
   </thead>`;
-  const domsToRenew = domaines.filter(dom => dom["Temps restant"] <= 15);
+  const domsToRenew = domaines.filter(dom => dom["Temps restant"] <= 50);
 
   if (domsToRenew.length === 0) {
       mailBody += `
