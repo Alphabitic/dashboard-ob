@@ -911,8 +911,9 @@ const certificats = [
 ];
 
 const app = express();
-
+app.use(express.json())
 // Middleware pour le parsing du corps de la requête
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Configuration de CORS
