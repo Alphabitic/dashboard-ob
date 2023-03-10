@@ -941,7 +941,7 @@ app.post('/api/send-certs', async (req, res) => {
       const expirationDate = new Date(cert["Date d'expiration du certificat"]);
       const timeDiff = expirationDate.getTime() - Date.now();
       const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
-      return daysDiff <= 50;
+      return daysDiff <= 15;
     });
 
   let mailBody = `
@@ -994,7 +994,7 @@ if (certsToRenew.length === 0) {
       <th style="border: 1px solid black;">Temps restant</th>
     </tr>
   </thead>`;
-  const domsToRenew = domaines.filter(dom => dom["Temps restant"] <= 50);
+  const domsToRenew = domaines.filter(dom => dom["Temps restant"] <= 15);
 
   if (domsToRenew.length === 0) {
       mailBody += `
